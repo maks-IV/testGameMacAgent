@@ -37,10 +37,19 @@ steps:
     apksignerKeyPassword: yT93zfT
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy APK Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: '$(Build.BinariesDirectory)'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
+- task: CopyFiles@2
+  displayName: 'Copy RELEASE notes to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    Contents: 'RELEASE'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Apk&ReleaseNotes'
+    publishLocation: 'Container'
